@@ -30,6 +30,8 @@ account_sid = os.getenv('ACCOUNT_SID')
 auth_token = os.getenv('AUTH_TOKEN')
 origin = os.getenv('ORIGIN')
 destination = os.getenv('DESTINATION')
+myPhone = os.getenv('MYPHONE')
+yourPhone = os.getenv('YOURPHONE')
 
 client = TwilioRestClient(account_sid, auth_token) 
 now=datetime.now()
@@ -52,11 +54,11 @@ how_i_really_need_to_go = '.  '.join(how_to_go)
 
 # Send myself some instructions for the day
 instructions = "Today's best route is by taking %s, and it'll take %s. Here's how you can get there: %s." % (summary, time_taken, how_i_really_need_to_go)
-print instructions
+
 # Now send it!
-# message = client.messages.create(
-# to="+15125251405", 
-# from_="+15127142914",
-# body=instructions)
+message = client.messages.create(
+to = myPhone, 
+from_ = yourPhone,
+body=instructions)
 
 # print(message.sid)
