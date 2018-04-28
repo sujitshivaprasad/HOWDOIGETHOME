@@ -1,6 +1,5 @@
 import googlemaps
 from datetime import datetime
-from twilio.rest import TwilioRestClient
 from HTMLParser import HTMLParser
 from dotenv import load_dotenv
 from slackclient import SlackClient
