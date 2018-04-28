@@ -3,4 +3,10 @@ Do you commute to work? Do you encounter a lot of traffic on your way/way back? 
 
 If you answered yes to most of those questions, you're just like me. I created this script to text me directions from work to get home. Just store your credentials/detials in a .env file exactly like the .env.example file, and run the python code from the command line. Tested on Python 2.7.
 
-The goal is to make this code live on a server (maybe Heroku) so it can send me these texts at 5 pm every weekday. TBD
+The scheduler can be modified to the time of your choice. 
+
+## Setup
+At the command line in the directory with these files
+`python directions.py &`
+
+The script will run in the background, indefinitely. Don't forget to restart the script if you reboot.
