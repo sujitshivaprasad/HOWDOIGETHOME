@@ -4,6 +4,19 @@ from HTMLParser import HTMLParser
 from dotenv import load_dotenv
 from slackclient import SlackClient
 import os
+import schedule
+import time
+
+# Some parsing stuff
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.fed = []
+    def handle_data(self, d):
+        self.fed.append(d)
+    def get_data(self):
+        return ''.join(self.fed)
+
 
 # Setup the directory so I can load the .env file
 BASE_DIR = (os.path.dirname(os.path.abspath(__file__)))
@@ -23,15 +36,6 @@ def slack_message(message, channel):
 
 # Initialization
 how_to_go = []
-
-class MLStripper(HTMLParser):
-    def __init__(self):
-        self.reset()
-        self.fed = []
-    def handle_data(self, d):
-        self.fed.append(d)
-    def get_data(self):
-        return ''.join(self.fed)
 
 gmaps = googlemaps.Client(key='AIzaSyB08XoTl1mP8UFDegpBq8mZ2NSbN8_Trn4')
 now = datetime.now()
@@ -55,8 +59,14 @@ how_i_really_need_to_go = '.  '.join(how_to_go)
 # Send myself some instructions for the day
 instructions = "Today's best route is by taking %s, and it'll take %s. Here's how you can get there: %s." % (summary, time_taken, how_i_really_need_to_go)
 
-
+# Setup channel
 general = "#general"
-slack_message(instructions, general)
-# print(message.sid)
-print instructions
+#slack_message(instructions, general)
+
+#print instructions
+schedule.every().day.at("17:00").do(slack_message, instructions, general)
+
+while True:
+    schedule.run_pending()
+    time.sleep(60) # wait one minute
+
